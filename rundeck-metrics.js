@@ -8,13 +8,14 @@ $.getJSON( "executions.json", function( data ) {
     // The name of the data record attribute that contains x-values.
     xkey: 'Day',
     xLabels: 'day',
+    xLabelAngle: 35,
     // A list of names of data record attributes that contain y-values.
-    ykeys: ['Executions'],
+    ykeys: ['Succeeded', 'Failed'],
     // Labels for the ykeys -- will be displayed when you hover over the
     // chart.
-    labels: ['Executions'],
+    labels: ['Succeeded', 'Failed'],
     resize: true,
-    lineColors: ['#333']
+    lineColors: ['#0DC695', '#F25654']
   });
 });
 
