@@ -21,7 +21,7 @@ TOTALS = {"TOTAL": 0,
           "UNIQUE_USERS": 0
          }
 
-
+# { '2006': {"SUCCEEDED": 100, "FAILED": 90} }
 
 def get_log_files(glob_pattern):
     return glob.glob(glob_pattern)
@@ -30,16 +30,14 @@ def calculate_executions(glob_pattern):
     for exec_file in get_log_files(glob_pattern):
         with open(exec_file) as ef:
             efj = json.load(ef)
-        # check status
+        day = efj["startTime"].split("T")[0]
+        # EXEC_PER_DAY[day] = EXEC_PER_DAY.get(day, {"SUCCEEDED": 0, "FAILED": 0})
         if efj["executionState"] == "SUCCEEDED":
             TOTALS["SUCCEEDED"] += 1
+            EXEC_PER_DAY[day]["SUCCEEDED"] = EXEC_PER_DAY.get(day, {"SUCCEEDED": 0, "FAILED": 0})["SUCCEEDED"] + 1
         elif efj["executionState"] == "FAILED":
             TOTALS["FAILED"] += 1
-
-        # check date - example: "2017-04-30T15:35:00Z"
-        day = efj["startTime"].split("T")[0]
-        EXEC_PER_DAY[day] = EXEC_PER_DAY.get(day, 0) + 1
-
+            EXEC_PER_DAY[day]["FAILED"] = EXEC_PER_DAY.get(day, {"SUCCEEDED": 0, "FAILED": 0})["FAILED"] + 1
         TOTALS["TOTAL"] += 1
 
 def _update_users(log_line):

@@ -12,7 +12,7 @@ $.getJSON( "executions.json", function( data ) {
     ykeys: ['Executions'],
     // Labels for the ykeys -- will be displayed when you hover over the
     // chart.
-    // labels: ['Executions'],
+    labels: ['Executions'],
     resize: true,
     lineColors: ['#333']
   });
