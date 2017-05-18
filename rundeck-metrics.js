@@ -1,5 +1,7 @@
+var area_graph
+
 $.getJSON( "executions.json", function( data ) {
-  new Morris.Area({
+  area_graph = new Morris.Area({
     // ID of the element in which to draw the chart.
     element: 'morrisLine',
     // Chart data records -- each entry in this array corresponds to a point on
@@ -26,3 +28,19 @@ $.getJSON( "totals.json", function( data ) {
   $("#failed-executions").text(data["FAILED"])
   $("#unique-users").text(data["UNIQUE_USERS"])
 });
+
+function update(){
+  $.getJSON( "executions.json", function( data ) {
+    area_graph.setData(data);
+  });
+
+  $.getJSON( "totals.json", function( data ) {
+    $("#total-executions").text(data["TOTAL"])
+    $("#successful-executions").text(data["SUCCEEDED"])
+    $("#failed-executions").text(data["FAILED"])
+    $("#unique-users").text(data["UNIQUE_USERS"])
+  });
+}
+
+// Update every 10 minutes
+setInterval(update, 600000);
